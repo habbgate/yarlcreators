@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin | Yarl Creators</title>
+<link rel="icon" type="image/png" href="/images/2026/02/4-1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+  <!-- Sign in -->
+  <div class="login" id="login" hidden>
+    <form class="login-card" id="login-form">
+      <div class="brand"><span class="brand-mark"></span><span>Yarl Creators</span></div>
+      <h1>Sign in to the dashboard</h1>
+      <label class="field"><span>Email</span><input name="email" type="email" autocomplete="username" required></label>
+      <label class="field"><span>Password</span><input name="password" type="password" autocomplete="current-password" required></label>
+      <p class="login-err" id="login-err" role="alert"></p>
+      <button class="btn primary block" type="submit">Sign in</button>
+      <a class="quiet-link" href="/">Back to website</a>
+    </form>
+  </div>
+
+  <!-- App -->
+  <div class="app" id="app" hidden>
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#/"><span class="brand-mark"></span><span>Yarl Creators</span></a>
+      <nav class="side-nav" aria-label="Dashboard">
+        <p class="side-label">Workspace</p>
+        <a href="#/" data-route="overview"><i data-icon="home"></i>Overview</a>
+        <a href="#/enquiries" data-route="enquiries"><i data-icon="inbox"></i>Enquiries<span class="count" id="nav-new"></span></a>
+        <a href="#/posts" data-route="posts"><i data-icon="file"></i>Insights</a>
+        <a href="#/team" data-route="team"><i data-icon="users"></i>Team</a>
+        <p class="side-label">Website</p>
+        <a href="/" target="_blank" rel="noopener"><i data-icon="external"></i>View website</a>
+      </nav>
+      <div class="side-foot">
+        <div class="me"><span class="av" id="me-av">A</span><span class="me-email" id="me-email"></span></div>
+        <button class="icon-btn" id="logout" title="Sign out" aria-label="Sign out"><i data-icon="logout"></i></button>
+      </div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="icon-btn menu" id="menu" aria-label="Open menu"><i data-icon="menu"></i></button>
+        <div class="crumbs" id="crumbs"></div>
+        <div class="top-actions" id="top-actions"></div>
+      </header>
+      <main class="content" id="view" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <dialog class="modal" id="modal"></dialog>
+  <aside class="drawer" id="drawer" aria-hidden="true"></aside>
+  <div class="scrim" id="scrim" hidden></div>
+
+  <script src="/admin/admin.js"></script>
+</body>
+</html>
