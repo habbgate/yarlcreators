@@ -108,3 +108,17 @@ footer.site .copy { margin-top: 36px; padding-top: 20px; border-top: 1px solid #
   nav ul { flex-direction: column; padding: 16px; align-items: flex-start; }
   section { padding: 56px 0; }
 }
+
+/* About intro (two photos, camera icon, copy) */
+.about-intro { padding: 72px 0; }
+.intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+.intro-photos { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.intro-photos img { width: 100%; height: auto; object-fit: cover; }
+.photo-tall { aspect-ratio: 3 / 4; }
+.photo-short { aspect-ratio: 3 / 4; margin-top: 60px; }
+.camera-icon { position: absolute; left: -24px; bottom: -28px; width: 110px !important; height: auto; opacity: .35; }
+.intro-text h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); }
+.intro-text h2 .light { font-weight: 300; }
+.intro-text p { color: var(--muted); }
+.more-link { color: var(--brand); font-weight: 600; text-decoration: none; }
+@media (max-width: 820px) { .intro-grid { grid-template-columns: 1fr; } .photo-short { margin-top: 24px; } }
