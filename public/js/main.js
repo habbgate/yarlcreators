@@ -11,36 +11,31 @@
     });
   }
   function fmtDate(d) { return d ? new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''; }
-  function pad(n) { return (n < 10 ? '0' : '') + n; }
   function getJSON(url) {
     return fetch(url, { headers: { Accept: 'application/json' } }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
   }
-  var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
-  var BACK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>';
+  var svg = function (d) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>'; };
+  var ARROW = svg('<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>');
+  var BACK = svg('<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>');
+  var CHECK = svg('<path d="M20 6 9 17l-5-5"/>');
 
   // ---------- header ----------
   var header = $('.site-header');
   if (header) {
-    var onScroll = function () { header.classList.toggle('scrolled', window.scrollY > 24); };
+    var onScroll = function () { header.classList.toggle('scrolled', window.scrollY > 8); };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
   }
-
-  // ---------- full-screen menu ----------
-  var sheet = $('#menu-sheet');
-  var openBtn = $('.head-cta .menu-btn');
-  function setMenu(open) {
-    if (!sheet) return;
-    sheet.classList.toggle('open', open);
-    sheet.setAttribute('aria-hidden', String(!open));
-    if (openBtn) openBtn.setAttribute('aria-expanded', String(open));
-    document.body.style.overflow = open ? 'hidden' : '';
-    if (open) { var c = $('.menu-close', sheet); c && c.focus(); } else if (openBtn) openBtn.focus();
-  }
-  if (openBtn) openBtn.addEventListener('click', function () { setMenu(true); });
-  if (sheet) {
-    $('.menu-close', sheet).addEventListener('click', function () { setMenu(false); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && sheet.classList.contains('open')) setMenu(false); });
+  var menuBtn = $('.menu-btn');
+  var mnav = $('#mobile-nav');
+  if (menuBtn && mnav) {
+    menuBtn.addEventListener('click', function () {
+      var open = mnav.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(open));
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && mnav.classList.contains('open')) { mnav.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); menuBtn.focus(); }
+    });
   }
   var yr = $('#year');
   if (yr) yr.textContent = new Date().getFullYear();
@@ -51,43 +46,18 @@
     if (!('IntersectionObserver' in window)) { els.forEach(function (el) { el.classList.add('in'); }); return; }
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
-    }, { rootMargin: '0px 0px -8% 0px' });
-    els.forEach(function (el, i) { el.style.transitionDelay = (i % 4) * 60 + 'ms'; io.observe(el); });
+    }, { rootMargin: '0px 0px -6% 0px' });
+    els.forEach(function (el, i) { el.style.transitionDelay = (i % 3) * 70 + 'ms'; io.observe(el); });
   }
   observeReveal(document);
 
-  // ---------- services: image follows the cursor ----------
-  var preview = $('.cursor-preview');
-  var rows = $$('[data-preview]');
-  if (preview && rows.length && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    var img = $('img', preview);
-    var x = 0, y = 0, cx = 0, cy = 0, raf = null;
-    var loop = function () {
-      cx += (x - cx) * 0.18; cy += (y - cy) * 0.18;
-      preview.style.transform = 'translate3d(' + (cx - 140) + 'px,' + (cy - 105) + 'px,0) scale(' + (preview.classList.contains('on') ? 1 : 0.9) + ')';
-      raf = Math.abs(x - cx) + Math.abs(y - cy) > 0.5 ? requestAnimationFrame(loop) : null;
-    };
-    rows.forEach(function (r) {
-      r.addEventListener('mouseenter', function (e) { img.src = r.getAttribute('data-preview'); cx = x = e.clientX; cy = y = e.clientY; preview.classList.add('on'); loop(); });
-      r.addEventListener('mouseleave', function () { preview.classList.remove('on'); });
-      r.addEventListener('mousemove', function (e) { x = e.clientX; y = e.clientY; if (!raf) raf = requestAnimationFrame(loop); });
-    });
-  }
-
-  // ---------- cards ----------
-  function workCard(p, i) {
+  // ---------- post card ----------
+  function postCard(p) {
     return '<a class="work-card reveal" href="/insights/' + encodeURIComponent(p.slug) + '">' +
-      '<div class="ph">' + (p.cover ? '<img src="' + esc(p.cover) + '" alt="" loading="lazy">' : '') + '</div>' +
-      '<div class="txt"><div class="cap mono"><span>' + pad(i + 1) + ' — ' + esc(p.category || 'Insight') + '</span><span>' + fmtDate(p.publishedAt) + '</span></div>' +
-      '<h3><span>' + esc(p.title) + '</span></h3>' +
-      (i === 0 && p.excerpt ? '<p class="work-ex">' + esc(p.excerpt) + '</p>' : '') + '</div></a>';
-  }
-  function postCard(p, i, lead) {
-    var cap = '<div class="cap mono"><span>' + pad(i + 1) + ' — ' + esc(p.category || 'Insight') + '</span><span>' + fmtDate(p.publishedAt) + '</span></div>';
-    var media = '<div class="ph">' + (p.cover ? '<img src="' + esc(p.cover) + '" alt="" loading="lazy">' : '') + '</div>';
-    var text = '<h3>' + esc(p.title) + '</h3>' + (p.excerpt ? '<p>' + esc(p.excerpt) + '</p>' : '');
-    return '<a class="post-card reveal' + (lead ? ' lead' : '') + '" href="/insights/' + encodeURIComponent(p.slug) + '">' +
-      (lead ? media + '<div>' + cap + text + '</div>' : media + cap + text) + '</a>';
+      (p.cover ? '<img src="' + esc(p.cover) + '" alt="" loading="lazy">' : '') +
+      '<span class="go">' + ARROW + '</span>' +
+      '<div class="over"><span class="tag">' + esc(p.category || 'Insight') + '</span><h3>' + esc(p.title) + '</h3>' +
+      '<div class="meta">' + fmtDate(p.publishedAt) + ' · ' + (p.readingMinutes || 1) + ' min read</div></div></a>';
   }
 
   // Home: featured posts chosen in the admin dashboard
@@ -97,9 +67,28 @@
       return list.length ? list : getJSON('/api/blogs?limit=3');
     }).then(function (list) {
       if (!list.length) { featured.closest('section').hidden = true; return; }
-      featured.innerHTML = list.map(workCard).join('');
+      featured.innerHTML = list.map(postCard).join('');
       observeReveal(featured);
     }).catch(function () { featured.closest('section').hidden = true; });
+  }
+
+  // Testimonial slider
+  var voices = $$('.voice');
+  if (voices.length) {
+    var vi = 0, timer = null;
+    var dots = $$('[data-dot]');
+    var show = function (n) {
+      vi = (n + voices.length) % voices.length;
+      voices.forEach(function (v, i) { v.classList.toggle('on', i === vi); v.setAttribute('aria-hidden', String(i !== vi)); });
+      dots.forEach(function (d, i) { d.classList.toggle('on', i === vi); });
+    };
+    var auto = function () {
+      clearInterval(timer);
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) timer = setInterval(function () { show(vi + 1); }, 7000);
+    };
+    $$('[data-voice]').forEach(function (b) { b.addEventListener('click', function () { show(vi + parseInt(b.getAttribute('data-voice'), 10)); auto(); }); });
+    dots.forEach(function (d) { d.addEventListener('click', function () { show(parseInt(d.getAttribute('data-dot'), 10)); auto(); }); });
+    auto();
   }
 
   // Insights list with category filter
@@ -109,7 +98,7 @@
     var all = [];
     var render = function (cat) {
       var list = cat ? all.filter(function (p) { return p.category === cat; }) : all;
-      grid.innerHTML = list.length ? list.map(function (p, i) { return postCard(p, i, i === 0 && !cat); }).join('') : '<div class="empty mono">No posts in this category yet</div>';
+      grid.innerHTML = list.length ? list.map(function (p) { return postCard(p); }).join('') : '<div class="empty">No posts in this category yet</div>';
       observeReveal(grid);
     };
     getJSON('/api/blogs?limit=60').then(function (list) {
@@ -117,17 +106,17 @@
       var cats = [];
       list.forEach(function (p) { if (p.category && cats.indexOf(p.category) < 0) cats.push(p.category); });
       if (filters && cats.length > 1) {
-        filters.innerHTML = '<button class="chip" aria-pressed="true" data-cat="">All</button>' +
-          cats.map(function (c) { return '<button class="chip" aria-pressed="false" data-cat="' + esc(c) + '">' + esc(c) + '</button>'; }).join('');
+        filters.innerHTML = '<button class="chip-btn" aria-pressed="true" data-cat="">All posts</button>' +
+          cats.map(function (c) { return '<button class="chip-btn" aria-pressed="false" data-cat="' + esc(c) + '">' + esc(c) + '</button>'; }).join('');
         filters.addEventListener('click', function (e) {
-          var b = e.target.closest('.chip');
+          var b = e.target.closest('.chip-btn');
           if (!b) return;
-          $$('.chip', filters).forEach(function (c) { c.setAttribute('aria-pressed', String(c === b)); });
+          $$('.chip-btn', filters).forEach(function (c) { c.setAttribute('aria-pressed', String(c === b)); });
           render(b.getAttribute('data-cat'));
         });
       }
       render('');
-    }).catch(function () { grid.innerHTML = '<div class="empty mono">Posts could not be loaded. Please refresh the page.</div>'; });
+    }).catch(function () { grid.innerHTML = '<div class="empty">Posts could not be loaded. Please refresh the page.</div>'; });
   }
 
   // Single article
@@ -140,20 +129,20 @@
       if (md && p.excerpt) md.setAttribute('content', p.excerpt);
       article.innerHTML =
         '<div class="wrap"><header class="article-head">' +
-          '<div class="meta mono"><a class="tlink" href="/insights" style="margin-right:16px;color:var(--ink)">' + BACK + 'All insights</a>' +
-            '<span>' + esc(p.category || 'Insight') + '</span><span>' + fmtDate(p.publishedAt) + '</span><span>' + p.readingMinutes + ' min read</span></div>' +
-          '<div><h1>' + esc(p.title) + '</h1>' + (p.excerpt ? '<p class="lede">' + esc(p.excerpt) + '</p>' : '') + '</div>' +
-        '</header></div>' +
+          '<a class="back" href="/insights">' + BACK + 'All insights</a>' +
+          '<div class="meta"><span class="tag">' + esc(p.category || 'Insight') + '</span><span>' + fmtDate(p.publishedAt) + ' · ' + p.readingMinutes + ' min read</span></div>' +
+          '<h1>' + esc(p.title) + '</h1>' + (p.excerpt ? '<p class="lede">' + esc(p.excerpt) + '</p>' : '') +
+        '</header>' +
         (p.cover ? '<figure class="article-cover" style="margin:0"><img src="' + esc(p.cover) + '" alt=""></figure>' : '') +
-        '<div class="wrap"><div class="prose">' + p.content + '</div></div>';
+        '<div class="prose">' + p.content + '</div></div>';
       var more = $('#more-posts');
       if (more && p.more && p.more.length) {
         more.hidden = false;
-        $('#more-grid').innerHTML = p.more.map(function (x, i) { return postCard(x, i, false); }).join('');
+        $('#more-grid').innerHTML = p.more.map(function (x) { return postCard(x); }).join('');
         observeReveal(more);
       }
     }).catch(function () {
-      article.innerHTML = '<div class="wrap"><header class="article-head"><span class="idx">404</span><div><h1>Post not found</h1><p class="lede" style="margin-bottom:40px">It may have been moved or unpublished.</p><a class="btn" href="/insights">See all insights ' + ARROW + '</a></div></header></div>';
+      article.innerHTML = '<div class="wrap"><header class="article-head"><h1>Post not found</h1><p class="lede">It may have been moved or unpublished.</p><p style="margin-top:32px"><a class="btn" href="/insights">See all insights ' + ARROW + '</a></p></header></div>';
     });
   }
 
@@ -161,12 +150,11 @@
   var team = $('#team-grid');
   if (team) {
     getJSON('/api/team').then(function (list) {
-      team.innerHTML = list.map(function (m, i) {
+      team.innerHTML = list.map(function (m) {
         return '<article class="member reveal"><div class="ph">' +
-          (m.photo ? '<img src="' + esc(m.photo) + '" alt="' + esc(m.name) + '" loading="lazy">' : '<div class="skeleton" style="aspect-ratio:4/5"></div>') +
-          '</div><div class="meta"><h3>' + esc(m.name) + '</h3><span class="mono muted">' + pad(i + 1) + '</span></div>' +
-          '<div class="role mono">' + esc(m.role) + '</div>' +
-          (m.bio ? '<p>' + esc(m.bio) + '</p>' : '') + '</article>';
+          (m.photo ? '<img src="' + esc(m.photo) + '" alt="' + esc(m.name) + '" loading="lazy">' : '<div class="skeleton" style="min-height:0;aspect-ratio:1"></div>') +
+          '</div><div class="body"><h3>' + esc(m.name) + '</h3><span class="role">' + esc(m.role) + '</span>' +
+          (m.bio ? '<p>' + esc(m.bio) + '</p>' : '') + '</div></article>';
       }).join('');
       observeReveal(team);
     }).catch(function () { team.innerHTML = ''; });
@@ -186,8 +174,10 @@
       f.setAttribute('aria-invalid', msg ? 'true' : 'false');
     };
     var pre = new URLSearchParams(location.search).get('service');
-    if (pre && form.service) form.service.value = pre;
-
+    if (pre && form.service) {
+      var match = $$('option', form.service).filter(function (o) { return o.value.toLowerCase() === pre.toLowerCase(); })[0];
+      if (match) form.service.value = match.value;
+    }
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var data = {};
@@ -214,7 +204,7 @@
             Object.keys(res.j.errors || {}).forEach(function (k) { setErr(k, res.j.errors[k]); });
             throw new Error(res.j.error || 'Something went wrong');
           }
-          form.outerHTML = '<div class="success"><h3>Thank you, ' + esc(data.name.split(' ')[0]) + '</h3><p>Your message is with our team. We will get back to you by email or phone.</p></div>';
+          form.outerHTML = '<div class="success"><span class="ic">' + CHECK + '</span><h3>Thank you, ' + esc(data.name.split(' ')[0]) + '</h3><p>Your message is with our team. We will get back to you by email or phone.</p></div>';
         })
         .catch(function (err) {
           status.className = 'form-status bad';

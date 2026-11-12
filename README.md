@@ -24,7 +24,7 @@ npm run dev               # http://localhost:3000, admin at http://localhost:300
 | `scripts/seed.js` | Imports the original team and posts with their photos as base64 |
 | `scripts/build-pages.js` | Generates the public HTML pages from one shared header, footer and content list. Edit it and run `node scripts/build-pages.js` instead of editing the pages by hand |
 | `public/` | The public site: `index`, `about`, `services`, `insights`, `post` (single article), `contact`, `404` |
-| `public/css/styles.css` | Site design: monochrome warm off-white and near-black, Geist and Geist Mono |
+| `public/css/styles.css` | Site design: warm off-white with brand maroon, Inter Tight headings with Instrument Serif italic accents, Inter text; centred hero with photo strip, floating pill header |
 | `public/js/main.js` | Loads featured posts, insights, articles and team from the API; sends the contact form |
 | `public/admin/` | Admin dashboard (plain HTML, CSS and JS, no build step) |
 
