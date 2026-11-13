@@ -1,0 +1,44 @@
+# Yarl Creators: Apache rules (XAMPP, cPanel and most shared hosting).
+# The site must be served from the domain root, e.g. https://yarlcreators.lk/ or a local virtual host.
+Options -Indexes -MultiViews
+DirectoryIndex index.php index.html
+ErrorDocument 404 /404.php
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Keep private files and folders out of reach
+  RewriteRule ^(includes|database|design-review)(/|$) - [F,L]
+  RewriteRule ^(config|config\.sample|router)\.php$ - [F,L]
+  RewriteRule (^|/)\.(?!well-known/) - [F,L]
+  RewriteRule \.(sql|md)$ - [F,L]
+
+  # JSON API and stored images
+  RewriteCond %{REQUEST_URI} !^/api/index\.php
+  RewriteRule ^api(/.*)?$ api/index.php [L,QSA]
+  RewriteRule ^media/([0-9]+)/?$ media.php?id=$1 [L,QSA]
+
+  # Articles: /insights/{slug}
+  RewriteRule ^insights/([^/]+)/?$ post.php?slug=$1 [L,QSA,B]
+
+  # Old .html and .php addresses -> clean URLs
+  RewriteRule ^index\.(html|php)$ / [R=301,L]
+  RewriteCond %{THE_REQUEST} \s/+(about|services|insights|contact)\.(html|php)[\s?]
+  RewriteRule ^ /%1 [R=301,L]
+
+  # Clean URLs: /about -> about.php
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{DOCUMENT_ROOT}/$1.php -f
+  RewriteRule ^([a-z0-9-]+)/?$ $1.php [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+<IfModule mod_php.c>
+  php_value upload_max_filesize 16M
+  php_value post_max_size 16M
+</IfModule>
