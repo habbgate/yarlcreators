@@ -10,13 +10,7 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
-  function fmtDate(d) { return d ? new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''; }
-  function getJSON(url) {
-    return fetch(url, { headers: { Accept: 'application/json' } }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
-  }
   var svg = function (d) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>'; };
-  var ARROW = svg('<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>');
-  var BACK = svg('<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>');
   var CHECK = svg('<path d="M20 6 9 17l-5-5"/>');
 
   // ---------- header ----------
@@ -28,13 +22,21 @@
   }
   var menuBtn = $('.menu-btn');
   var mnav = $('#mobile-nav');
+  function setMenu(open) {
+    mnav.classList.toggle('open', open);
+    document.documentElement.classList.toggle('menu-open', open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    var path = menuBtn.querySelector('path');
+    if (path) path.setAttribute('d', open ? 'M6 6l12 12M18 6 6 18' : 'M4 8h16M4 16h16');
+  }
   if (menuBtn && mnav) {
     menuBtn.addEventListener('click', function () {
-      var open = mnav.classList.toggle('open');
-      menuBtn.setAttribute('aria-expanded', String(open));
+      setMenu(!mnav.classList.contains('open'));
     });
+    mnav.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && mnav.classList.contains('open')) { mnav.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); menuBtn.focus(); }
+      if (e.key === 'Escape' && mnav.classList.contains('open')) { setMenu(false); menuBtn.focus(); }
     });
   }
   var yr = $('#year');
@@ -50,27 +52,6 @@
     els.forEach(function (el, i) { el.style.transitionDelay = (i % 3) * 70 + 'ms'; io.observe(el); });
   }
   observeReveal(document);
-
-  // ---------- post card ----------
-  function postCard(p) {
-    return '<a class="work-card reveal" href="/insights/' + encodeURIComponent(p.slug) + '">' +
-      (p.cover ? '<img src="' + esc(p.cover) + '" alt="" loading="lazy">' : '') +
-      '<span class="go">' + ARROW + '</span>' +
-      '<div class="over"><span class="tag">' + esc(p.category || 'Insight') + '</span><h3>' + esc(p.title) + '</h3>' +
-      '<div class="meta">' + fmtDate(p.publishedAt) + ' · ' + (p.readingMinutes || 1) + ' min read</div></div></a>';
-  }
-
-  // Home: featured posts chosen in the admin dashboard
-  var featured = $('#featured-posts');
-  if (featured) {
-    getJSON('/api/blogs?featured=1&limit=3').then(function (list) {
-      return list.length ? list : getJSON('/api/blogs?limit=3');
-    }).then(function (list) {
-      if (!list.length) { featured.closest('section').hidden = true; return; }
-      featured.innerHTML = list.map(postCard).join('');
-      observeReveal(featured);
-    }).catch(function () { featured.closest('section').hidden = true; });
-  }
 
   // Testimonial slider
   var voices = $$('.voice');
@@ -91,73 +72,20 @@
     auto();
   }
 
-  // Insights list with category filter
+  // Insights: category filter over the cards rendered by PHP
+  var filters = $('#post-filters');
   var grid = $('#post-grid');
-  if (grid) {
-    var filters = $('#post-filters');
-    var all = [];
-    var render = function (cat) {
-      var list = cat ? all.filter(function (p) { return p.category === cat; }) : all;
-      grid.innerHTML = list.length ? list.map(function (p) { return postCard(p); }).join('') : '<div class="empty">No posts in this category yet</div>';
-      observeReveal(grid);
-    };
-    getJSON('/api/blogs?limit=60').then(function (list) {
-      all = list;
-      var cats = [];
-      list.forEach(function (p) { if (p.category && cats.indexOf(p.category) < 0) cats.push(p.category); });
-      if (filters && cats.length > 1) {
-        filters.innerHTML = '<button class="chip-btn" aria-pressed="true" data-cat="">All posts</button>' +
-          cats.map(function (c) { return '<button class="chip-btn" aria-pressed="false" data-cat="' + esc(c) + '">' + esc(c) + '</button>'; }).join('');
-        filters.addEventListener('click', function (e) {
-          var b = e.target.closest('.chip-btn');
-          if (!b) return;
-          $$('.chip-btn', filters).forEach(function (c) { c.setAttribute('aria-pressed', String(c === b)); });
-          render(b.getAttribute('data-cat'));
-        });
-      }
-      render('');
-    }).catch(function () { grid.innerHTML = '<div class="empty">Posts could not be loaded. Please refresh the page.</div>'; });
-  }
-
-  // Single article
-  var article = $('#article');
-  if (article) {
-    var slug = decodeURIComponent(location.pathname.replace(/^\/insights\//, '').replace(/\/$/, ''));
-    getJSON('/api/blogs/' + encodeURIComponent(slug)).then(function (p) {
-      document.title = p.title + ' | Yarl Creators';
-      var md = $('meta[name="description"]');
-      if (md && p.excerpt) md.setAttribute('content', p.excerpt);
-      article.innerHTML =
-        '<div class="wrap"><header class="article-head">' +
-          '<a class="back" href="/insights">' + BACK + 'All insights</a>' +
-          '<div class="meta"><span class="tag">' + esc(p.category || 'Insight') + '</span><span>' + fmtDate(p.publishedAt) + ' · ' + p.readingMinutes + ' min read</span></div>' +
-          '<h1>' + esc(p.title) + '</h1>' + (p.excerpt ? '<p class="lede">' + esc(p.excerpt) + '</p>' : '') +
-        '</header>' +
-        (p.cover ? '<figure class="article-cover" style="margin:0"><img src="' + esc(p.cover) + '" alt=""></figure>' : '') +
-        '<div class="prose">' + p.content + '</div></div>';
-      var more = $('#more-posts');
-      if (more && p.more && p.more.length) {
-        more.hidden = false;
-        $('#more-grid').innerHTML = p.more.map(function (x) { return postCard(x); }).join('');
-        observeReveal(more);
-      }
-    }).catch(function () {
-      article.innerHTML = '<div class="wrap"><header class="article-head"><h1>Post not found</h1><p class="lede">It may have been moved or unpublished.</p><p style="margin-top:32px"><a class="btn" href="/insights">See all insights ' + ARROW + '</a></p></header></div>';
+  if (filters && grid) {
+    filters.addEventListener('click', function (e) {
+      var b = e.target.closest('.chip-btn');
+      if (!b) return;
+      var cat = b.getAttribute('data-cat');
+      $$('.chip-btn', filters).forEach(function (c) { c.setAttribute('aria-pressed', String(c === b)); });
+      $$('.work-card', grid).forEach(function (card) {
+        card.hidden = !!cat && card.getAttribute('data-cat') !== cat;
+        if (!card.hidden) card.classList.add('in');
+      });
     });
-  }
-
-  // Team
-  var team = $('#team-grid');
-  if (team) {
-    getJSON('/api/team').then(function (list) {
-      team.innerHTML = list.map(function (m) {
-        return '<article class="member reveal"><div class="ph">' +
-          (m.photo ? '<img src="' + esc(m.photo) + '" alt="' + esc(m.name) + '" loading="lazy">' : '<div class="skeleton" style="min-height:0;aspect-ratio:1"></div>') +
-          '</div><div class="body"><h3>' + esc(m.name) + '</h3><span class="role">' + esc(m.role) + '</span>' +
-          (m.bio ? '<p>' + esc(m.bio) + '</p>' : '') + '</div></article>';
-      }).join('');
-      observeReveal(team);
-    }).catch(function () { team.innerHTML = ''; });
   }
 
   // ---------- contact form ----------

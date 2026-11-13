@@ -1,54 +1,10 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Insights | Yarl Creators</title>
-<meta name="description" content="Production stories, event coverage and notes on brand storytelling from the Yarl Creators studio.">
-<meta name="theme-color" content="#f7f5f2">
-<link rel="icon" type="image/png" href="/images/2026/02/4-1.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/styles.css">
-<script>document.documentElement.classList.add('js')</script>
-</head>
-<body>
-<a class="sr-only" href="#main">Skip to content</a>
-<header class="site-header">
-  <div class="bar">
-    <a class="brand" href="/" aria-label="Yarl Creators home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-name">Yarl Creators</span></a>
-    <nav class="nav" aria-label="Main"><a href="/">Home</a><a href="/about">About</a><a href="/services">Services</a><a href="/insights" aria-current="page">Insights</a><a href="/contact">Contact</a></nav>
-    <div class="head-cta">
-      <a class="btn sm" href="/contact">Get a quote <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a>
-      <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
-    </div>
-  </div>
-  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile"><a href="/">Home</a><a href="/about">About</a><a href="/services">Services</a><a href="/insights" aria-current="page">Insights</a><a href="/contact">Contact</a><a class="btn" href="/contact">Get a quote <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a></nav>
-</header>
-<main id="main">
-<section class="page-head" style="padding-bottom:0">
-  <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span>Insights</span></nav>
-    <h1>Stories from our <em>productions</em></h1>
-    <p class="lede">Recent productions, events and brand stories from our studio.</p>
-  </div>
-  
-</section>
-<section style="padding-top:56px">
-  <div class="wrap">
-    <div class="filters" id="post-filters" role="toolbar" aria-label="Filter by category"></div>
-    <div class="work-grid" id="post-grid" aria-live="polite"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
-  </div>
-</section>
-
 </main>
 <footer class="site-footer on-dark">
   <div class="foot-cta">
     <div class="wrap">
       <span class="eyebrow">Start a project</span>
-      <h2>Let’s tell your <em>story</em></h2>
-      <p>Tell us about your project. We will come back with ideas, a timeline and a quote.</p>
+      <h2><?= $page['cta_title'] ?? 'Let’s tell your <em>story</em>' ?></h2>
+      <p><?= e($page['cta_text'] ?? 'Tell us about your project. We will come back with ideas, a timeline and a quote.') ?></p>
       <div class="actions"><a class="btn white" href="/contact">Start a project <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a><a class="btn ghost-light plain" href="tel:+94761981178">Call +94 76 198 1178</a></div>
     </div>
   </div>
@@ -67,9 +23,10 @@
         <li class="contact-li"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg><span>Manipay - Kaithady Road, Urumpirai North 40000, Sri Lanka</span></li>
       </ul></div>
     </div>
-    <div class="foot-bottom"><span>© <span id="year">2026</span> Yarl Creators. All rights reserved.</span><span>Jaffna, Sri Lanka</span></div>
+    <div class="foot-bottom"><span>© <span id="year"><?= gmdate('Y') ?></span> Yarl Creators. All rights reserved.</span><span>Jaffna, Sri Lanka</span></div>
   </div>
 </footer>
+</div>
 <script src="/js/main.js"></script>
 </body>
 </html>

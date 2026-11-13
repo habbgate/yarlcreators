@@ -134,7 +134,7 @@
   scrim.addEventListener('click', () => { closeDrawer(); $('#sidebar').classList.remove('open'); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer(); });
 
-  // ---------- images: file -> resized base64 -> MongoDB ----------
+  // ---------- images: file -> resized base64 -> MySQL ----------
   function readAsDataUrl(file) {
     return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => rej(new Error('Could not read the file')); r.readAsDataURL(file); });
   }
@@ -282,7 +282,7 @@
     const view = old.cloneNode(false);
     old.replaceWith(view);
     window.scrollTo(0, 0);
-    const views = { overview: viewOverview, enquiries: viewEnquiries, posts: parts[1] ? viewEditor : viewPosts, team: viewTeam };
+    const views = { overview: viewOverview, enquiries: viewEnquiries, posts: parts[1] ? viewEditor : viewPosts, team: viewTeam, logos: viewLogos };
     (views[key] || viewOverview)(view, parts[1]);
   }
 
@@ -567,7 +567,7 @@
             </div>
             <div class="rte-area" id="area" contenteditable="true" data-placeholder="Write the post, paste formatted text, or drop images here" spellcheck="true"></div>
             <textarea class="rte-src" id="src" hidden spellcheck="false" aria-label="HTML source"></textarea>
-            <div class="rte-foot"><span id="wc">0 words</span><span>Drop or paste images anywhere in the text. They are stored in MongoDB.</span></div>
+            <div class="rte-foot"><span id="wc">0 words</span><span>Drop or paste images anywhere in the text. They are stored in the database.</span></div>
           </div>
         </div>
         <aside class="side-panel">
@@ -966,6 +966,85 @@
         load();
       } catch (e) { fail(e); }
     }
+  }
+
+  // ---------- Client logos ----------
+  async function viewLogos(view) {
+    setChrome('<b>Client logos</b>', `<button class="btn primary" id="add-logo">${ic('plus')}Add logos</button>`);
+    let list = [];
+    view.innerHTML = `<div class="page-title"><div><h1>Client logos</h1><p>These scroll in the "Trusted by" strip on the home and services pages. Drop several images at once, or drag a logo by the handle to reorder.</p></div></div><div class="logo-drop" id="ldrop">${ic('upload')}<strong>Drop logos here</strong><span>or click to choose. PNG with a transparent background works best</span></div><div class="logo-grid" id="lgrid"></div>`;
+    paintIcons(view);
+    const render = () => {
+      $('#lgrid').innerHTML = list.length ? list.map((l) => `
+        <div class="card lg ${l.visible ? '' : 'hidden-member'}" data-id="${l.id}">
+          <div class="lg-img"><img src="${esc(l.url)}" alt=""></div>
+          <div class="bar">
+            <span class="icon-btn handle" title="Drag to reorder" aria-label="Drag to reorder">${ICONS.grip}</span>
+            <span style="flex:1"></span>
+            <button class="icon-btn" data-vis title="${l.visible ? 'Hide from the website' : 'Show on the website'}" aria-label="Toggle visibility">${l.visible ? ICONS.eye : ICONS.eyeoff}</button>
+            <button class="icon-btn" data-del title="Delete" aria-label="Delete">${ICONS.trash}</button>
+          </div>
+        </div>`).join('') : '<div class="card empty" style="grid-column:1/-1"><strong>No logos yet</strong>Upload the first client logo above</div>';
+    };
+    const load = async () => { list = await api('GET', '/logos'); render(); };
+    try { await load(); } catch (e) { return fail(e); }
+
+    const upload = async (files) => {
+      let n = 0;
+      for (const f of files) {
+        try { const r = await uploadImage(f, 600); await api('POST', '/logos', { imageId: r.id, name: f.name.replace(/\.[^.]+$/, '') }); n++; } catch (e) { fail(e); }
+      }
+      if (n) { toast(n === 1 ? 'Logo added' : n + ' logos added'); load(); }
+    };
+    const drop = $('#ldrop');
+    drop.tabIndex = 0;
+    const choose = async () => { const f = await pickFiles('image/*', true); if (f.length) upload(f); };
+    drop.addEventListener('click', choose);
+    drop.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(); } });
+    $('#add-logo').addEventListener('click', choose);
+    bindDrop(drop, upload);
+
+    const grid = $('#lgrid');
+    grid.addEventListener('click', async (e) => {
+      const card = e.target.closest('[data-id]');
+      if (!card) return;
+      const l = list.find((x) => x.id === card.dataset.id);
+      try {
+        if (e.target.closest('[data-vis]')) { await api('PUT', '/logos/' + l.id, { visible: !l.visible }); l.visible = !l.visible; render(); toast(l.visible ? 'Shown on the website' : 'Hidden from the website'); }
+        if (e.target.closest('[data-del]')) {
+          if (!(await confirmBox('Delete this logo?', 'It is removed from the website strip. This cannot be undone.', 'Delete'))) return;
+          await api('DELETE', '/logos/' + l.id); list = list.filter((x) => x.id !== l.id); render(); toast('Deleted');
+        }
+      } catch (er) { fail(er); }
+    });
+    let dragId = null;
+    grid.addEventListener('pointerdown', (e) => { const h = e.target.closest('.handle'); if (h) h.closest('.lg').draggable = true; });
+    grid.addEventListener('dragstart', (e) => {
+      const c = e.target.closest('.lg');
+      if (!c || !c.draggable) return e.preventDefault();
+      dragId = c.dataset.id; c.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', dragId);
+    });
+    grid.addEventListener('dragover', (e) => {
+      if (!dragId) return;
+      e.preventDefault();
+      const c = e.target.closest('.lg');
+      $$('.lg.drop-target', grid).forEach((x) => x !== c && x.classList.remove('drop-target'));
+      if (c && c.dataset.id !== dragId) c.classList.add('drop-target');
+    });
+    grid.addEventListener('drop', async (e) => {
+      if (!dragId) return;
+      e.preventDefault();
+      const c = e.target.closest('.lg');
+      if (c && c.dataset.id !== dragId) {
+        const from = list.findIndex((x) => x.id === dragId), to = list.findIndex((x) => x.id === c.dataset.id);
+        const [m] = list.splice(from, 1);
+        list.splice(to, 0, m);
+        render();
+        try { await api('POST', '/logos/reorder', { ids: list.map((x) => x.id) }); toast('Order saved'); } catch (er) { fail(er); }
+      }
+    });
+    grid.addEventListener('dragend', () => { dragId = null; $$('.lg', grid).forEach((x) => { x.classList.remove('dragging', 'drop-target'); x.draggable = false; }); });
   }
 
   boot();
