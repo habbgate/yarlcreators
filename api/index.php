@@ -287,6 +287,29 @@ try {
         json_out(['ok' => true], 201);
     }
 
+    if ($method === 'POST' && $path === '/chat') {
+        if (!rate_ok('chat', 30, 600)) {
+            throw new HttpError(429, 'You are sending messages very quickly. Please wait a little.');
+        }
+        $in = body()['messages'] ?? null;
+        if (!is_array($in) || !$in) {
+            throw new HttpError(400, 'Send a message');
+        }
+        $msgs = [];
+        foreach (array_slice($in, -10) as $m) {
+            $role = ($m['role'] ?? '') === 'assistant' ? 'assistant' : 'user';
+            $text = str_in($m['content'] ?? '', 800);
+            if ($text !== '') {
+                $msgs[] = ['role' => $role, 'content' => $text];
+            }
+        }
+        if (!$msgs || end($msgs)['role'] !== 'user') {
+            throw new HttpError(400, 'Send a message');
+        }
+        require_once __DIR__ . '/../includes/assistant.php';
+        json_out(['reply' => assistant_reply($msgs)]);
+    }
+
     if ($method === 'GET' && $path === '/blogs') {
         $list = published_posts((int) ($_GET['limit'] ?? 24) ?: 24, bool_in($_GET['featured'] ?? ''), str_in($_GET['category'] ?? '', 80));
         json_out(array_map('blog_summary', $list));

@@ -13,6 +13,10 @@ return [
     'admin_email'    => 'admin@yarlcreators.lk',
     'admin_password' => 'change-me',
 
+    // Website chat assistant (DeepSeek). Get a key at platform.deepseek.com. Leave empty to hide the chat button.
+    'deepseek_key'   => '',
+    'ai_name'        => 'Yazhi AI',
+
     // Show PHP errors in the browser. Keep false on the live site.
     'debug' => false,
 ];

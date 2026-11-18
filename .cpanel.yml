@@ -1,0 +1,9 @@
+---
+# cPanel Git deployment: runs after "Deploy HEAD Commit" in cPanel > Git Version Control.
+# Copies the site into public_html. config.php is never touched (it lives only on the server).
+deployment:
+  tasks:
+    - export DEPLOYPATH=$HOME/public_html/
+    - /bin/mkdir -p $DEPLOYPATH
+    - /bin/cp -R admin api css images includes js $DEPLOYPATH
+    - /bin/cp .htaccess index.php about.php services.php insights.php post.php contact.php media.php 404.php router.php config.sample.php $DEPLOYPATH

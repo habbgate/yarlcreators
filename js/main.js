@@ -142,3 +142,28 @@
     });
   }
 })();
+
+
+/* Home hero: photo slider */
+(function () {
+  var hero = document.querySelector('[data-hero]');
+  if (!hero) return;
+  var slides = hero.querySelectorAll('.hs-slide');
+  if (slides.length < 2) return;
+  var count = hero.querySelector('.hs-count'), cap = hero.querySelector('.hs-cap'), line = hero.querySelector('.hs-line');
+  var i = 0, timer = null, reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function show(n) {
+    slides[i].classList.remove('on');
+    i = (n + slides.length) % slides.length;
+    slides[i].classList.add('on');
+    count.textContent = '0' + (i + 1);
+    cap.textContent = slides[i].getAttribute('data-cap') || '';
+    if (line) { line.classList.remove('run'); void line.offsetWidth; if (!reduce) line.classList.add('run'); }
+  }
+  function start() { if (reduce) return; clearInterval(timer); timer = setInterval(function () { show(i + 1); }, 6500); if (line) { line.classList.remove('run'); void line.offsetWidth; line.classList.add('run'); } }
+  hero.querySelectorAll('[data-hs]').forEach(function (b) {
+    b.addEventListener('click', function () { show(i + parseInt(b.getAttribute('data-hs'), 10)); start(); });
+  });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) clearInterval(timer); else start(); });
+  start();
+})();

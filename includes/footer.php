@@ -27,6 +27,22 @@
   </div>
 </footer>
 </div>
+<?php if (config('deepseek_key')): $ai = (function_exists('assistant_name') ? assistant_name() : (string) config('ai_name', 'Yazhi AI')); ?>
+<div class="chat" id="chat" data-name="<?= e($ai) ?>">
+  <button class="chat-fab" id="chat-fab" aria-label="Chat with <?= e($ai) ?>" aria-expanded="false" aria-controls="chat-panel">
+    <img class="i-chat" src="/images/mascot/ai-avatar.webp" alt="" width="46" height="46">
+    <svg class="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    <span class="chat-fab-label">Ask <?= e($ai) ?></span>
+  </button>
+  <div class="chat-panel" id="chat-panel" role="dialog" aria-label="Chat with <?= e($ai) ?>" hidden>
+    <div class="chat-head"><span class="chat-av"><img src="/images/mascot/ai-avatar.webp" alt="" width="44" height="44"></span><div><b><?= e($ai) ?></b><small><i></i>Yarl Creators assistant</small></div><button class="chat-close" id="chat-close" aria-label="Close chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
+    <div class="chat-log" id="chat-log" aria-live="polite"></div>
+    <div class="chat-chips" id="chat-chips"><button type="button">What services do you offer?</button><button type="button">Help me plan a brand film</button><button type="button">How do I get a quote?</button></div>
+    <form class="chat-form" id="chat-form"><input id="chat-input" type="text" maxlength="600" placeholder="Type your question…" autocomplete="off" aria-label="Your message"><button type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button></form>
+  </div>
+</div>
+<script src="/js/chat.js" defer></script>
+<?php endif; ?>
 <script src="/js/main.js"></script>
 </body>
 </html>

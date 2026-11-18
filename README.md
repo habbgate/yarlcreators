@@ -29,12 +29,23 @@ Then open http://localhost:8000 (admin at http://localhost:8000/admin). `router.
 | `api/index.php` | JSON API for the contact form and the admin dashboard |
 | `media.php` | Serves images from the `media` table at `/media/{id}` |
 | `admin/` | Admin dashboard (plain HTML, CSS and JS, no build step) |
+| `js/chat.js`, `includes/assistant.php` | Chat assistant widget and its DeepSeek call |
 | `css/styles.css`, `js/main.js`, `images/` | Site design, small browser script (menu, testimonial slider, post filter, contact form), static photos and logos |
 | `database/schema.sql`, `database/yarlcreators.sql` | Empty tables, and tables with the current content |
 | `.htaccess`, `router.php` | Clean URLs and protection for private files (Apache, and the PHP built-in server) |
 | `config.php` | Your private settings. Not in git |
 
 Design: light warm ivory with wine red and champagne gold; a studio-photo hero with the giant headline sitting behind the camera (a cut-out layer), Bricolage Grotesque headlines with Instrument Serif italic accents.
+
+## Chat assistant
+
+A floating chat button (bottom right of every page) opens an AI assistant that answers questions about the studio's services and helps visitors plan a project. It calls the DeepSeek chat API from the server (`api/index.php` `/api/chat`, `includes/assistant.php`), so the key is never sent to the browser.
+
+1. Create a key at platform.deepseek.com.
+2. Put it in `config.php`: `'deepseek_key' => 'your-key'`. Optionally change the assistant's name with `'ai_name'` (default `Yazhi AI`).
+3. Leave `deepseek_key` empty to hide the chat button.
+
+Edit the company facts and rules the assistant follows in `assistant_system_prompt()` in `includes/assistant.php`. Chat requests are limited per visitor (30 per 10 minutes) and the browser script is `js/chat.js`.
 
 ## Admin dashboard
 
