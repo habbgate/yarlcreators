@@ -20,12 +20,11 @@ include __DIR__ . '/includes/header.php';
     <p>Brand films, commercial photography, design and social content, from the first idea to the final cut.</p>
     <div class="hero-actions"><a class="btn white hc-btn" href="/contact">Start a project <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a><a class="btn ghost-light hc-btn" href="/insights">View our work <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a></div>
   </div>
-  <div class="hc-stats"><div class="wrap">
-    <div><strong>20+</strong><span>Businesses served</span></div>
-    <div><strong>10+</strong><span>Projects delivered</span></div>
-    <div><strong>5</strong><span>Core services</span></div>
-    <div><strong>6</strong><span>Countries with clients</span></div>
-  </div></div>
+  <div class="wrap hc-cards">
+    <a class="hc-card" href="/services"><i>01</i><strong>Films &amp; documentaries</strong><span>Stories shot and cut for screen and social.</span><em aria-hidden="true">&#8599;</em></a>
+    <a class="hc-card" href="/services"><i>02</i><strong>Photography &amp; events</strong><span>Products, people and live moments, captured sharp.</span><em aria-hidden="true">&#8599;</em></a>
+    <a class="hc-card" href="/services"><i>03</i><strong>Design &amp; digital</strong><span>Brand identity, websites and social content.</span><em aria-hidden="true">&#8599;</em></a>
+  </div>
 </section>
 
 <section class="ticker-sec">

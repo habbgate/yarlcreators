@@ -1545,3 +1545,15 @@ body { background: #fff; }
 .chat-fab img.i-chat { box-shadow: 0 0 0 2px var(--maroon); }
 .chat.open .chat-fab { background: var(--maroon-900); color: #fff; }
 .chat.open .chat-fab { background: #fff; color: var(--maroon-900); }
+
+
+/* hero: service cards replace the stats bar */
+.hc-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding-bottom: 36px; text-align: left; }
+.hc-card { position: relative; display: block; padding: 22px 56px 22px 22px; border: 1px solid rgba(255, 255, 255, 0.22); border-radius: 18px; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: #fff; transition: background .3s, transform .3s, border-color .3s; }
+.hc-card:hover { background: rgba(255, 255, 255, 0.16); border-color: rgba(255, 255, 255, 0.45); transform: translateY(-4px); }
+.hc-card i { display: block; font-style: normal; font-family: var(--head); font-size: 12px; letter-spacing: 0.18em; color: rgba(255, 255, 255, 0.6); margin-bottom: 14px; }
+.hc-card strong { display: block; font-family: var(--serif); font-weight: 500; font-size: 22px; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 6px; }
+.hc-card span { font-size: 14px; line-height: 1.5; color: rgba(255, 255, 255, 0.75); }
+.hc-card em { position: absolute; top: 18px; right: 18px; width: 34px; height: 34px; border-radius: 50%; background: #fff; color: var(--maroon-900); display: grid; place-items: center; font-style: normal; font-size: 16px; }
+@media (max-width: 860px) { .hc-cards { grid-template-columns: 1fr; gap: 10px; padding-bottom: 24px; } .hc-card { padding: 16px 54px 16px 18px; } .hc-card i { margin-bottom: 8px; } .hc-card span { display: none; } }
+.hc-card, .hc-card * { text-decoration: none !important; }
