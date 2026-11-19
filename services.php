@@ -69,27 +69,7 @@ include __DIR__ . '/includes/header.php';
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <div class="sh"><span class="eyebrow">Testimonials</span><h2>Trusted by our <em>clients</em></h2></div>
-    <div class="voice-wrap">
-      <div class="qm" aria-hidden="true">“</div>
-      <div class="voices">
-        <figure class="voice on" aria-hidden="false"><p>Fast, professional and creative. Our brand video turned out better than we imagined.</p><figcaption><span class="av">S</span><span><b>Suthanthi</b><small>Digital marketing</small></span></figcaption></figure>
-        <figure class="voice" aria-hidden="true"><p>The workshop was practical and inspiring. The team shares real production knowledge.</p><figcaption><span class="av">S</span><span><b>Sivakumar</b><small>Workshop participant</small></span></figcaption></figure>
-        <figure class="voice" aria-hidden="true"><p>Reliable partners for our social media content from start to finish.</p><figcaption><span class="av">S</span><span><b>Selvan</b><small>Social media client</small></span></figcaption></figure>
-        <figure class="voice" aria-hidden="true"><p>Excellent photography and video work. Highly recommended.</p><figcaption><span class="av">G</span><span><b>Gopinath</b><small>Photography and video</small></span></figcaption></figure>
-        <figure class="voice" aria-hidden="true"><p>Our social media content has never looked this good.</p><figcaption><span class="av">K</span><span><b>Karthik</b><small>Social media content</small></span></figcaption></figure>
-        <figure class="voice" aria-hidden="true"><p>Great team to work with, from concept to final delivery.</p><figcaption><span class="av">P</span><span><b>Prince</b><small>Client</small></span></figcaption></figure>
-      </div>
-      <div class="voice-nav">
-        <button class="round" data-voice="-1" aria-label="Previous testimonial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
-        <div class="dots"><button class="on" data-dot="0" aria-label="Testimonial 1"></button><button class="" data-dot="1" aria-label="Testimonial 2"></button><button class="" data-dot="2" aria-label="Testimonial 3"></button><button class="" data-dot="3" aria-label="Testimonial 4"></button><button class="" data-dot="4" aria-label="Testimonial 5"></button><button class="" data-dot="5" aria-label="Testimonial 6"></button></div>
-        <button class="round" data-voice="1" aria-label="Next testimonial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
-      </div>
-    </div>
-  </div>
-</section>
+<?= render_testimonials('Testimonials', 'Trusted by our <em>clients</em>') ?>
 <?php include __DIR__ . '/includes/logos.php'; ?>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>

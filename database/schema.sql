@@ -62,6 +62,28 @@ CREATE TABLE IF NOT EXISTS `logos` (
   KEY `idx_order` (`sort_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `stats` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `value` VARCHAR(20) NOT NULL DEFAULT '',
+  `suffix` VARCHAR(8) NOT NULL DEFAULT '',
+  `label` VARCHAR(120) NOT NULL DEFAULT '',
+  `visible` TINYINT(1) NOT NULL DEFAULT 1,
+  `sort_order` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `idx_order` (`sort_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `testimonials` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `quote` TEXT NOT NULL,
+  `name` VARCHAR(120) NOT NULL DEFAULT '',
+  `role` VARCHAR(120) NOT NULL DEFAULT '',
+  `visible` TINYINT(1) NOT NULL DEFAULT 1,
+  `sort_order` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `idx_order` (`sort_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `contacts` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(120) NOT NULL,

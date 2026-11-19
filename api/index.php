@@ -562,6 +562,72 @@ try {
         }
     }
 
+    // Home-page stats and testimonials (plain text rows, same shape for both)
+    foreach ([
+        'site-stats' => ['stats', 'ensure_stats', 'stat_out', ['value' => 20, 'suffix' => 8, 'label' => 120]],
+        'testimonials' => ['testimonials', 'ensure_testimonials', 'testimonial_out', ['quote' => 800, 'name' => 120, 'role' => 120]],
+    ] as $route => [$tbl, $ensure, $outFn, $fields]) {
+        $firstField = array_key_first($fields);
+        if ($a === [$route]) {
+            $ensure();
+            if ($method === 'GET') {
+                json_out(array_map($outFn, q("SELECT * FROM `$tbl` ORDER BY sort_order, id")->fetchAll()));
+            }
+            if ($method === 'POST') {
+                $b = body();
+                $row = [];
+                foreach ($fields as $f => $max) {
+                    $row[$f] = str_in($b[$f] ?? '', $max);
+                }
+                if ($row[$firstField] === '') {
+                    throw new HttpError(400, ucfirst($firstField) . ' is required');
+                }
+                $row['visible'] = (int) bool_in($b['visible'] ?? true);
+                $row['sort_order'] = (int) q("SELECT COALESCE(MAX(sort_order), -1) + 1 FROM `$tbl`")->fetchColumn();
+                json_out(['id' => (string) insert_row($tbl, $row)], 201);
+            }
+        }
+        if ($method === 'POST' && $ap === "/$route/reorder") {
+            $ensure();
+            $ids = array_values(array_filter(array_map('id_in', is_array(body()['ids'] ?? null) ? body()['ids'] : [])));
+            $st = db()->prepare("UPDATE `$tbl` SET sort_order = ? WHERE id = ?");
+            foreach ($ids as $i => $rid) {
+                $st->execute([$i, $rid]);
+            }
+            json_out(['ok' => true]);
+        }
+        if (count($a) === 2 && $a[0] === $route) {
+            $ensure();
+            $id = need_id($a[1]);
+            if (!q("SELECT 1 FROM `$tbl` WHERE id = ?", [$id])->fetch()) {
+                throw new HttpError(404, 'Not found');
+            }
+            if ($method === 'PUT') {
+                $b = body();
+                $set = [];
+                foreach ($fields as $f => $max) {
+                    if (array_key_exists($f, $b)) {
+                        $set[$f] = str_in($b[$f], $max);
+                    }
+                }
+                if (isset($set[$firstField]) && $set[$firstField] === '') {
+                    throw new HttpError(400, ucfirst($firstField) . ' is required');
+                }
+                if (array_key_exists('visible', $b)) {
+                    $set['visible'] = (int) bool_in($b['visible']);
+                }
+                if ($set) {
+                    update_row($tbl, $id, $set);
+                }
+                json_out(['ok' => true]);
+            }
+            if ($method === 'DELETE') {
+                q("DELETE FROM `$tbl` WHERE id = ?", [$id]);
+                json_out(['ok' => true]);
+            }
+        }
+    }
+
     // Team
     if ($a === ['team']) {
         if ($method === 'GET') {

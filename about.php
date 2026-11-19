@@ -39,10 +39,7 @@ include __DIR__ . '/includes/header.php';
 <section class="ab-statsec">
   <div class="wrap">
     <div class="ab-stats on-dark">
-      <div class="stat reveal"><strong>2022</strong><span>Founded in Jaffna</span></div>
-      <div class="stat reveal"><strong>20<sup>+</sup></strong><span>Businesses served</span></div>
-      <div class="stat reveal"><strong>10<sup>+</sup></strong><span>Projects completed</span></div>
-      <div class="stat reveal"><strong>6<sup>+</sup></strong><span>Countries with clients</span></div>
+      <?= render_stats() ?>
     </div>
   </div>
 </section>

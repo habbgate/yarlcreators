@@ -36,6 +36,7 @@
     edit: P('<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>'),
     eye: P('<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>'),
     eyeoff: P('<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/>'),
+    chart: P('<line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/>'),
     star: P('<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'),
     image: P('<rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>'),
     upload: P('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/>'),
@@ -282,7 +283,7 @@
     const view = old.cloneNode(false);
     old.replaceWith(view);
     window.scrollTo(0, 0);
-    const views = { overview: viewOverview, enquiries: viewEnquiries, posts: parts[1] ? viewEditor : viewPosts, team: viewTeam, logos: viewLogos };
+    const views = { overview: viewOverview, enquiries: viewEnquiries, posts: parts[1] ? viewEditor : viewPosts, team: viewTeam, logos: viewLogos, stats: viewStats, testimonials: viewTestimonials };
     (views[key] || viewOverview)(view, parts[1]);
   }
 
@@ -1045,6 +1046,125 @@
       }
     });
     grid.addEventListener('dragend', () => { dragId = null; $$('.lg', grid).forEach((x) => { x.classList.remove('dragging', 'drop-target'); x.draggable = false; }); });
+  }
+
+  // ---------- Stats and testimonials (simple text rows) ----------
+  function viewStats(view) {
+    return viewTextRows(view, {
+      path: '/site-stats', title: 'Stats', noun: 'stat', addLabel: 'Add stat',
+      intro: 'The numbers shown on the home and About pages. Change the number, the small "+" after it and the label. Drag by the handle to reorder.',
+      fields: [
+        { name: 'value', label: 'Number', placeholder: '20', required: true },
+        { name: 'suffix', label: 'After the number', placeholder: '+', hint: 'Optional, for example +' },
+        { name: 'label', label: 'Label', placeholder: 'Businesses served', required: true },
+      ],
+      row: (r) => `<div class="tr-main"><div class="tr-big">${esc(r.value)}<sup>${esc(r.suffix)}</sup></div><div class="tr-sub">${esc(r.label)}</div></div>`,
+      name: (r) => r.label || r.value,
+    });
+  }
+  function viewTestimonials(view) {
+    return viewTextRows(view, {
+      path: '/testimonials', title: 'Testimonials', noun: 'testimonial', addLabel: 'Add testimonial',
+      intro: 'Client quotes shown in the slider on the home and Services pages. Hide one to keep it without showing it. Drag by the handle to reorder.',
+      fields: [
+        { name: 'quote', label: 'Quote', type: 'textarea', required: true },
+        { name: 'name', label: 'Name', placeholder: 'Suthanthi', required: true },
+        { name: 'role', label: 'Role or company', placeholder: 'Digital marketing' },
+      ],
+      row: (r) => `<div class="tr-main"><div class="tr-quote">“${esc(r.quote)}”</div><div class="tr-sub"><b>${esc(r.name)}</b>${r.role ? ' · ' + esc(r.role) : ''}</div></div>`,
+      name: (r) => r.name || 'this testimonial',
+    });
+  }
+  async function viewTextRows(view, cfg) {
+    setChrome(`<b>${cfg.title}</b>`, `<button class="btn primary" id="add-row">${ic('plus')}${cfg.addLabel}</button>`);
+    view.innerHTML = `<div class="page-title"><div><h1>${cfg.title}</h1><p>${cfg.intro}</p></div></div><div class="tr-list" id="trlist"></div>`;
+    let list = [];
+    const box = $('#trlist');
+    const render = () => {
+      box.innerHTML = list.length ? list.map((r) => `
+        <div class="card tr ${r.visible ? '' : 'hidden-member'}" data-id="${r.id}">
+          <span class="icon-btn handle" title="Drag to reorder" aria-label="Drag to reorder">${ICONS.grip}</span>
+          ${cfg.row(r)}
+          ${r.visible ? '' : '<span class="pill hidden-tag">Hidden</span>'}
+          <div class="tr-actions">
+            <button class="icon-btn" data-vis title="${r.visible ? 'Hide from the website' : 'Show on the website'}" aria-label="Toggle visibility">${r.visible ? ICONS.eye : ICONS.eyeoff}</button>
+            <button class="icon-btn" data-edit title="Edit" aria-label="Edit">${ICONS.edit}</button>
+            <button class="icon-btn" data-del title="Delete" aria-label="Delete">${ICONS.trash}</button>
+          </div>
+        </div>`).join('') : `<div class="card empty"><strong>Nothing here yet</strong>Add the first ${cfg.noun}<br><button class="btn primary" data-add>${ICONS.plus}${cfg.addLabel}</button></div>`;
+    };
+    const load = async () => { list = await api('GET', cfg.path); render(); };
+    try { await load(); } catch (e) { return fail(e); }
+
+    async function edit(r) {
+      const isNew = !r;
+      r = r || { visible: true };
+      const res = await openModal(`<form><div class="modal-head"><h2>${isNew ? cfg.addLabel : 'Edit ' + esc(cfg.noun)}</h2></div><div class="modal-body">
+        ${cfg.fields.map((f) => `<label class="field"><span>${esc(f.label)}</span>${f.type === 'textarea' ? `<textarea name="${f.name}" rows="4" maxlength="800" ${f.required ? 'required' : ''}>${esc(r[f.name])}</textarea>` : `<input name="${f.name}" value="${esc(r[f.name])}" placeholder="${esc(f.placeholder || '')}" ${f.required ? 'required' : ''}>`}${f.hint ? `<small>${esc(f.hint)}</small>` : ''}</label>`).join('')}
+        <label class="switch"><input type="checkbox" name="visible" ${r.visible ? 'checked' : ''}><span class="track"></span><span>Show on the website</span></label>
+      </div><div class="modal-foot"><button type="button" class="btn" data-x>Cancel</button><button class="btn primary">${isNew ? cfg.addLabel : 'Save'}</button></div></form>`,
+        (md, done) => {
+          $('[data-x]', md).onclick = () => done(null);
+          $('form', md).onsubmit = (e) => {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            const out = { visible: fd.get('visible') === 'on' };
+            cfg.fields.forEach((f) => { out[f.name] = fd.get(f.name); });
+            done(out);
+          };
+        });
+      if (!res) return;
+      try {
+        if (isNew) await api('POST', cfg.path, res); else await api('PUT', cfg.path + '/' + r.id, res);
+        toast(isNew ? 'Added' : 'Saved');
+        load();
+      } catch (e) { fail(e); }
+    }
+
+    $('#add-row').addEventListener('click', () => edit());
+    box.addEventListener('click', async (e) => {
+      if (e.target.closest('[data-add]')) return edit();
+      const card = e.target.closest('[data-id]');
+      if (!card) return;
+      const r = list.find((x) => x.id === card.dataset.id);
+      try {
+        if (e.target.closest('[data-edit]')) return edit(r);
+        if (e.target.closest('[data-vis]')) { await api('PUT', cfg.path + '/' + r.id, { visible: !r.visible }); r.visible = !r.visible; render(); toast(r.visible ? 'Shown on the website' : 'Hidden from the website'); }
+        if (e.target.closest('[data-del]')) {
+          if (!(await confirmBox('Delete ' + cfg.name(r) + '?', 'It is removed from the website. This cannot be undone.', 'Delete'))) return;
+          await api('DELETE', cfg.path + '/' + r.id); list = list.filter((x) => x.id !== r.id); render(); toast('Deleted');
+        }
+      } catch (er) { fail(er); }
+    });
+
+    let dragId = null;
+    box.addEventListener('pointerdown', (e) => { const h = e.target.closest('.handle'); if (h) h.closest('.tr').draggable = true; });
+    box.addEventListener('dragstart', (e) => {
+      const c = e.target.closest('.tr');
+      if (!c || !c.draggable) return e.preventDefault();
+      dragId = c.dataset.id; c.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', dragId);
+    });
+    box.addEventListener('dragover', (e) => {
+      if (!dragId) return;
+      e.preventDefault();
+      const c = e.target.closest('.tr');
+      $$('.tr.drop-target', box).forEach((x) => x !== c && x.classList.remove('drop-target'));
+      if (c && c.dataset.id !== dragId) c.classList.add('drop-target');
+    });
+    box.addEventListener('drop', async (e) => {
+      if (!dragId) return;
+      e.preventDefault();
+      const c = e.target.closest('.tr');
+      if (c && c.dataset.id !== dragId) {
+        const from = list.findIndex((x) => x.id === dragId), to = list.findIndex((x) => x.id === c.dataset.id);
+        const [m] = list.splice(from, 1);
+        list.splice(to, 0, m);
+        render();
+        try { await api('POST', cfg.path + '/reorder', { ids: list.map((x) => x.id) }); toast('Order saved'); } catch (er) { fail(er); }
+      }
+    });
+    box.addEventListener('dragend', () => { dragId = null; $$('.tr', box).forEach((x) => { x.classList.remove('dragging', 'drop-target'); x.draggable = false; }); });
   }
 
   boot();

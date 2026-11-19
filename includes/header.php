@@ -19,7 +19,7 @@ function nav_current(string $key): string
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Inter+Tight:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/styles.css?v=<?= filemtime(__DIR__ . "/../css/styles.css") ?>">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body<?= !empty($page['body']) ? ' class="' . e($page['body']) . '"' : '' ?>>

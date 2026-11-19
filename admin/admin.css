@@ -344,3 +344,17 @@ table.tbl { width: 100%; border-collapse: collapse; }
 .lg.dragging { opacity: 0.4; }
 .lg.drop-target { box-shadow: 0 0 0 2px var(--accent); }
 .lg.hidden-member .lg-img img { opacity: 0.4; filter: grayscale(1); }
+
+/* Stats and testimonials rows */
+.tr-list { display: grid; gap: 10px; }
+.tr { display: flex; align-items: center; gap: 14px; padding: 14px 16px; }
+.tr .handle { cursor: grab; flex: none; }
+.tr-main { flex: 1; min-width: 0; }
+.tr-big { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
+.tr-big sup { font-size: 0.55em; margin-left: 2px; }
+.tr-quote { font-size: 15px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tr-sub { color: var(--muted, #6b6b6b); font-size: 13px; margin-top: 4px; }
+.tr-actions { display: flex; gap: 2px; flex: none; }
+.tr.dragging { opacity: 0.4; }
+.tr.drop-target { outline: 2px dashed currentColor; outline-offset: 2px; }
+@media (max-width: 640px) { .tr { flex-wrap: wrap; } .tr-actions { margin-left: auto; } }
