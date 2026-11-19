@@ -3,8 +3,8 @@ require_once __DIR__ . '/includes/bootstrap.php';
 require_once __DIR__ . '/includes/content.php';
 
 $page = [
-    'title' => 'Yarl Creators | Media production company in Jaffna, Sri Lanka',
-    'description' => 'Yarl Creators is a full-service media production company in Jaffna, Sri Lanka: brand films, commercial photography, event coverage, design and social media for growing businesses.',
+    'title' => 'Yarl Creators | Digital Media Production Company in Jaffna, Sri Lanka',
+    'description' => 'Yarl Creators is a full-service digital media production company in Jaffna, Sri Lanka: brand films, commercial photography, event coverage, design and social media for growing businesses.',
     'nav' => 'home',
     'body' => 'home',
     'cta_title' => 'Let’s tell your <em>story</em>',
@@ -15,7 +15,7 @@ include __DIR__ . '/includes/header.php';
 <section class="hero-c">
   <img class="hc-bg" src="/images/hero-desk.jpg" alt="A production desk with a laptop edit, storyboards, prints, colour swatches and a camera" fetchpriority="high">
   <div class="wrap hc-copy">
-    <span class="hc-pill"><i></i>Media production · Jaffna, Sri Lanka</span>
+    <span class="hc-pill"><i></i>Digital media production · Jaffna, Sri Lanka</span>
     <h1>We make brands <em>unforgettable.</em></h1>
     <p>Brand films, commercial photography, design and social content, from the first idea to the final cut.</p>
     <div class="hero-actions"><a class="btn white hc-btn" href="/contact">Start a project <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a><a class="btn ghost-light hc-btn" href="/insights">View our work <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a></div>

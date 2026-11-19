@@ -4,7 +4,7 @@ require_once __DIR__ . '/includes/content.php';
 
 $page = [
     'title' => 'About us | Yarl Creators',
-    'description' => 'Yarl Creators is a media production company founded in 2022 in Jaffna, making brand films, photography, design and social media for businesses.',
+    'description' => 'Yarl Creators is a digital media production company founded in 2022 in Jaffna, making brand films, photography, design and social media for businesses.',
     'nav' => 'about',
     'cta_title' => 'Work with our <em>team</em>',
     'cta_text' => 'Tell us what you are planning and who it is for. We will come back with ideas, a timeline and a quote.',
@@ -17,7 +17,7 @@ include __DIR__ . '/includes/header.php';
     <div class="ab-copy">
       <span class="eyebrow">Our story</span>
       <h2>We turn local stories into films, photographs and brands that <em>travel</em>.</h2>
-      <p>Yarl Creators is a full-service media production company in Jaffna. Since 2022 we have made videography, photography, digital content and branding that helps businesses stand out in a competitive market.</p>
+      <p>Yarl Creators is a full-service digital media production company in Jaffna. Since 2022 we have made videography, photography, digital content and branding that helps businesses stand out in a competitive market.</p>
       <p>Our work spans brand storytelling, commercial advertisements, documentaries, short-form video, design and social media management, for clients from small enterprises to established companies.</p>
       <ul class="tags"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Brand films</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Documentaries</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Commercial photography</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Design and branding</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Social media</li></ul>
       <a class="btn" href="/services">Our services <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a>

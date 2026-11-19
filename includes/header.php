@@ -38,8 +38,8 @@ function nav_current(string $key): string
     <div class="mn-links"><a href="/"<?= nav_current('home') ?>>Home</a><a href="/about"<?= nav_current('about') ?>>About</a><a href="/services"<?= nav_current('services') ?>>Services</a><a href="/insights"<?= nav_current('insights') ?>>Insights</a><a href="/contact"<?= nav_current('contact') ?>>Contact</a></div>
     <div class="mn-foot">
       <a class="btn white" href="/contact">Start a project <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a>
-      <div class="mn-meta"><a href="tel:+94761981178">+94 76 198 1178</a><a href="mailto:yarlcreators0@gmail.com">yarlcreators0@gmail.com</a></div>
-      <div class="mn-social"><a href="https://www.instagram.com/yarl_creators" rel="noopener">Instagram</a><a href="https://www.youtube.com/@Yarlinyathrikal" rel="noopener">YouTube</a><a href="https://web.facebook.com/profile.php?id=100083580871638" rel="noopener">Facebook</a></div>
+      <div class="mn-meta"><a href="tel:+94761981178">+94 76 198 1178</a><a href="mailto:info@yarlcreators.com">info@yarlcreators.com</a></div>
+      <div class="mn-social"><a href="https://www.instagram.com/yarlcreators" rel="noopener">Instagram</a><a href="https://www.youtube.com/@yarlcreators" rel="noopener">YouTube</a><a href="https://www.linkedin.com/company/yarlcreators" rel="noopener">LinkedIn</a><a href="https://www.tiktok.com/@yarlcreators" rel="noopener">TikTok</a><a href="https://x.com/yarlcreators" rel="noopener">X</a><a href="https://www.facebook.com/yarlcreators" rel="noopener">Facebook</a></div>
     </div>
   </nav>
 </header>
