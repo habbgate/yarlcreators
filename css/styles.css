@@ -1581,7 +1581,7 @@ body { background: #fff; }
 .hc-card:hover { background: none; }
 .hc-card:hover::before { width: 100%; }
 .hc-card i { grid-row: 1 / span 2; font-family: var(--head); font-size: 12px; letter-spacing: 0.2em; color: rgba(255, 255, 255, 0.6); padding-top: 6px; }
-.hc-card strong { font-family: Georgia, "Times New Roman", serif; font-style: normal; font-weight: 400; font-size: clamp(20px, 1.9vw, 28px); line-height: 1.15; letter-spacing: 0; }
+.hc-card strong { font-family: "Montserrat", system-ui, sans-serif; font-style: normal; font-weight: 700; font-size: clamp(18px, 1.7vw, 24px); line-height: 1.2; letter-spacing: 0; }
 .hc-card span { display: block; grid-column: 2; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.62); }
 .hc-card em { position: absolute; right: 0; top: 18px; margin: 0; font-size: 20px; opacity: 0; transform: translate(-6px, 6px); transition: opacity 400ms var(--ease), transform 400ms var(--ease); }
 .hc-card:hover em { opacity: 1; transform: none; }
