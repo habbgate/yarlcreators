@@ -15,7 +15,7 @@ include __DIR__ . '/includes/header.php';
 <section class="sv-intro">
   <div class="wrap">
     <p class="sv-lead">From the first idea to the final file, one crew <em>plans, shoots, edits and designs</em> everything your brand needs.</p>
-    <nav class="sv-jump" aria-label="Jump to a service"><a href="#brand-story"><b>01</b>Brand Story</a><a href="#commercial-advertisement"><b>02</b>Commercial Advertisement</a><a href="#short-form"><b>03</b>Short-form Content Creation</a><a href="#documentaries"><b>04</b>Documentaries</a></nav>
+    <nav class="sv-jump" aria-label="Jump to a service"><a href="#brand-story"><b>01</b>Brand Story</a><a href="#commercial-advertisement"><b>02</b>Commercial Advertisement</a><a href="#short-form"><b>03</b>Short-form Content Creation</a><a href="#documentaries"><b>04</b>Documentaries</a><a href="#workshops"><b>05</b>Workshops and Partnerships</a></nav>
   </div>
 </section>
 <section class="sv-stack-sec">
@@ -46,6 +46,13 @@ include __DIR__ . '/includes/header.php';
       <div class="sv-text"><span class="sv-n">04</span><h2>Documentaries</h2><p>Cinematic stories shot and cut for screen, from interviews and narration to event documentaries.</p>
         <ul class="tags"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Cinematic documentaries</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Interviews and narration</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Event documentaries</li></ul>
         <a class="btn" href="/contact?service=Documentaries">Ask about this service <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a>
+      </div>
+    </article>
+    <article class="sv-card t-light" id="workshops" style="--i:4">
+      <div class="sv-media"><img src="/images/2025/08/1425.jpg" alt="" loading="lazy"></div>
+      <div class="sv-text"><span class="sv-n">05</span><h2>Workshops and Partnerships</h2><p>Hands-on workshops in photography, content creation and branding, and partnerships that open larger productions to regional talent.</p>
+        <ul class="tags"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Photography and content workshops</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>University and institution programmes</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Production partnerships</li></ul>
+        <a class="btn" href="/contact?service=Workshops%20and%20Partnerships">Ask about this service <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a>
       </div>
     </article>
   </div>
