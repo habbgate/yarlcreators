@@ -1677,3 +1677,6 @@ body { background: #fff; }
 .ticker .ticker-set b { margin: 0 clamp(24px, 2.8vw, 44px); }
 .ticker .ticker-set b::before { content: ""; display: block; width: 12px; height: 12px; border-radius: 50%; background: var(--maroon); }
 @media (max-width: 760px) { .ticker-track { padding: 20px 0; } .ticker .ticker-set b::before { width: 9px; height: 9px; } }
+
+/* Category filter: hidden cards must stay hidden even when a card rule sets display */
+.work-card[hidden], .ins-sec .work-card[hidden] { display: none !important; }
