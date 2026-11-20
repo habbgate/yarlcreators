@@ -11,7 +11,7 @@ $page = [
 ];
 include __DIR__ . '/includes/header.php';
 ?>
-<?= page_banner('Contact', 'Contact', 'Let’s talk about your <em>project</em>. Send a brief, or call us directly.', '/images/hero-desk.jpg') ?>
+<?= page_banner('Contact', 'Contact', 'Let’s talk about your <em>project</em>. Send a brief, or call us directly.', '/images/covers/lens-bokeh.jpg') ?>
 <section class="ct-tiles-sec">
   <div class="wrap ct-tiles">
     <a class="ct-tile" href="tel:+94761981178"><span>Call us</span><strong>+94 76 198 1178</strong><span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a>

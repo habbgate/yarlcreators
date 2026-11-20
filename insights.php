@@ -11,7 +11,7 @@ $page = [
 ];
 include __DIR__ . '/includes/header.php';
 ?>
-<?= page_banner('Insights', 'Insights', 'Recent productions, events and brand stories from our <em>studio</em>.', '/images/hero-desk.jpg') ?>
+<?= page_banner('Insights', 'Insights', 'Recent productions, events and brand stories from our <em>studio</em>.', '/images/covers/nikon-bokeh.jpg') ?>
 <section class="ins-sec">
   <div class="wrap">
     <?php
