@@ -11,7 +11,7 @@ $page = [
 ];
 include __DIR__ . '/includes/header.php';
 ?>
-<?= page_banner('Services', 'Services', 'Storytelling and visual content under <em>one roof</em>.', '/images/2025/08/540882654_768292029300153_6998871547980025643_n.jpg') ?>
+<?= page_banner('Services', 'Services', 'Storytelling and visual content under <em>one roof</em>.', '/images/hero-desk.jpg') ?>
 <section class="sv-intro">
   <div class="wrap">
     <p class="sv-lead">From the first idea to the final file, one crew <em>plans, shoots, edits and designs</em> everything your brand needs.</p>
