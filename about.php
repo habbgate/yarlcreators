@@ -11,7 +11,7 @@ $page = [
 ];
 include __DIR__ . '/includes/header.php';
 ?>
-<?= page_banner('About us', 'About us', 'A production team from Jaffna, working for brands <em>everywhere</em>.', '/images/about-cover.jpg') ?>
+<?= page_banner('About us', 'About us', 'A production team from Jaffna, working for brands <em>everywhere</em>.', '/images/about-cover-team.jpg') ?>
 <section class="ab-intro">
   <div class="wrap ab-grid">
     <div class="ab-copy">
