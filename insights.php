@@ -4,7 +4,7 @@ require_once __DIR__ . '/includes/content.php';
 
 $page = [
     'title' => 'Insights | Yarl Creators',
-    'description' => 'Production stories, event coverage and notes on brand storytelling from the Yarl Creators studio.',
+    'description' => 'Production stories, influencer campaigns and notes on brand storytelling from the Yarl Creators studio.',
     'nav' => 'insights',
     'cta_title' => 'Let’s tell your <em>story</em>',
     'cta_text' => 'Tell us about your project. We will come back with ideas, a timeline and a quote.',

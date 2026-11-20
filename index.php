@@ -4,7 +4,7 @@ require_once __DIR__ . '/includes/content.php';
 
 $page = [
     'title' => 'Yarl Creators | Digital Media Production Company in Jaffna, Sri Lanka',
-    'description' => 'Yarl Creators is a full-service digital media production company in Jaffna, Sri Lanka: brand films, commercial photography, event coverage, design and social media for growing businesses.',
+    'description' => 'Yarl Creators is a full-service digital media production company in Jaffna, Sri Lanka: brand films, commercial photography, influencer campaigns, graphic designs and social media campaigns for growing businesses.',
     'nav' => 'home',
     'body' => 'home',
     'cta_title' => 'Let’s tell your <em>story</em>',
@@ -30,7 +30,7 @@ include __DIR__ . '/includes/header.php';
 
 <section class="ticker-sec">
   <div class="ticker" aria-hidden="true"><div class="ticker-track">
-    <?php for ($i = 0; $i < 2; $i++): ?><div class="ticker-set"><span>Brand films</span><b>✦</b><span>Photography</span><b>✦</b><span>Event coverage</span><b>✦</b><span>Design</span><b>✦</b><span>Social media</span><b>✦</b><span>Workshops</span><b>✦</b></div><?php endfor; ?>
+    <?php for ($i = 0; $i < 2; $i++): ?><div class="ticker-set"><span>Brand films</span><b>✦</b><span>Photography</span><b>✦</b><span>Influencer Campaigns</span><b>✦</b><span>Graphic Designs</span><b>✦</b><span>Social Media Campaign</span><b>✦</b><span>Workshops</span><b>✦</b></div><?php endfor; ?>
   </div></div>
 </section>
 
@@ -63,7 +63,7 @@ include __DIR__ . '/includes/header.php';
       <li><a class="srow reveal" href="/services#storytelling"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg></span><div><h3>Creative storytelling</h3><p>Documentaries, short-form video and commercial advertisements that give a brand its voice.</p></div><img src="/images/2025/08/540882654_768292029300153_6998871547980025643_n.jpg" alt="" loading="lazy"></a></li>
       <li><a class="srow reveal" href="/services#visual-content"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></span><div><h3>Visual content</h3><p>Commercial photography, videography and editing for products, people and events.</p></div><img src="/images/2025/08/vwevwewew.jpg" alt="" loading="lazy"></a></li>
       <li><a class="srow reveal" href="/services#digital-presence"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg></span><div><h3>Digital presence</h3><p>Custom websites and social media management that keep your audience engaged.</p></div><img src="/images/2025/08/1245.jpg" alt="" loading="lazy"></a></li>
-      <li><a class="srow reveal" href="/services#design"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><div><h3>Design and branding</h3><p>Graphic design and branding materials, from identity to print.</p></div><img src="/images/2025/08/12111.jpg" alt="" loading="lazy"></a></li>
+      <li><a class="srow reveal" href="/services#digital-marketing"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><div><h3>Graphic Designs</h3><p>Graphic design and branding materials, from identity to print.</p></div><img src="/images/2025/08/12111.jpg" alt="" loading="lazy"></a></li>
       <li><a class="srow reveal" href="/services#workshops"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div><h3>Workshops and partnerships</h3><p>Hands-on workshops and production partnerships for aspiring creators.</p></div><img src="/images/2025/08/1425.jpg" alt="" loading="lazy"></a></li>
     </ol>
   </div>
@@ -71,7 +71,7 @@ include __DIR__ . '/includes/header.php';
 
 <section class="alt">
   <div class="wrap">
-    <div class="sh-row"><div><span class="eyebrow">Selected work</span><h2>Recent <em>productions</em></h2></div><p>Event coverage, commercials, brand films and workshops. These are the posts featured from the dashboard.</p></div>
+    <div class="sh-row"><div><span class="eyebrow">Selected work</span><h2>Recent <em>productions</em></h2></div><p>Influencer campaigns, commercials, brand films and workshops. These are the posts featured from the dashboard.</p></div>
     <div class="work-grid stagger" id="featured-posts"><?php foreach (home_posts() as $p) echo post_card($p); ?></div>
     <div class="center-btn"><a class="btn outline" href="/insights">View all work <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a></div>
   </div>
