@@ -11,7 +11,7 @@ $page = [
 ];
 include __DIR__ . '/includes/header.php';
 ?>
-<?= page_banner('About us', 'About us', 'A production team from Jaffna, working for brands <em>everywhere</em>.', '/images/2026/02/ycgp-1-scaled.jpg') ?>
+<?= page_banner('About us', 'About us', 'A production team from Jaffna, working for brands <em>everywhere</em>.', '/images/about-cover.jpg') ?>
 <section class="ab-intro">
   <div class="wrap ab-grid">
     <div class="ab-copy">
@@ -19,7 +19,7 @@ include __DIR__ . '/includes/header.php';
       <h2>We turn local stories into films, photographs and brands that <em>travel</em>.</h2>
       <p>Yarl Creators is a full-service digital media production company in Jaffna. Since 2022 we have made videography, photography, digital content and branding that helps businesses stand out in a competitive market.</p>
       <p>Our work spans brand storytelling, commercial advertisements, documentaries, short-form video, design and social media management, for clients from small enterprises to established companies.</p>
-      <ul class="tags"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Brand Story & Documentaries</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Commercial Advertisement</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Short-form Content Creation</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Digital Marketing: social media campaigns, influencer campaigns, graphic designs</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Workshops and Partnerships</li></ul>
+      <ul class="tags"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Brand Story & Documentaries</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Commercial Advertisement</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Short-form Content Creation</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Digital Marketing</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Workshops and Partnerships</li></ul>
       <a class="btn" href="/services">Our services <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a>
     </div>
     <div class="ab-photos">
